@@ -31,7 +31,7 @@ public class Main {
             Jogador j1 = new Humano(nome1, jogadas1);
             Jogador bot = new Bot(jogadas2);
         }
-        
+
         //Cria a figura da tabela
         String[][] tabela = {{"|", "---", "|","---", "|","---", "|"},
                              {"|", "   ", "|", "   ", "|", "   ", "|"},
@@ -42,9 +42,6 @@ public class Main {
                              {"|", "---", "|","---", "|","---", "|"}};
 
         Funcao.imprimeTabela(tabela);
-
-
-
 
         //Recebe a jogada do usuario
         System.out.println("Onde você quer jogar?(1-9) ");
