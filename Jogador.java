@@ -1,6 +1,7 @@
 package JogoDaVelha;
 import java.util.Random;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -23,8 +24,18 @@ class Bot extends Jogador{
         this.random = random;
         this.jogadas = jogadas;
     }
-    public int geraJogada(){
-        int numeroGerado = random.nextInt(9) + 1;
-        return random.nextInt(9) + 1;
+    public int geraJogada(int[] jogadas){
+        boolean numeroRepetido = false;
+        int numeroGerado;
+        do{
+            numeroGerado = random.nextInt(9) + 1;
+            for (int jogada : jogadas) {
+                if (jogada == numeroGerado) {
+                    numeroRepetido = true;
+                }
+            }
+        }while(numeroRepetido == true);
+
+        return numeroGerado;
     }
 }
