@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Jogador {
     protected int[] jogadas = new int[5];
-
 }
 
 class Humano extends Jogador{
@@ -20,8 +19,7 @@ class Humano extends Jogador{
 
 class Bot extends Jogador{
     private Random random;
-    Bot(Random random, int[] jogadas){
-        this.random = random;
+    Bot(int[] jogadas){
         this.jogadas = jogadas;
     }
     public int geraJogada(int[] jogadas){
