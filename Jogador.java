@@ -22,8 +22,8 @@ class Bot extends Jogador{
     Bot(int[] jogadas){
         this.jogadas = jogadas;
     }
-    public int geraJogada(int[] jogadas){
-        boolean numeroRepetido = false;
+    public Integer geraJogada(int[] jogadasH, int[] JogadasB){
+        /*boolean numeroRepetido = false;
         int numeroGerado;
         do{
             numeroGerado = random.nextInt(9) + 1;
@@ -34,6 +34,36 @@ class Bot extends Jogador{
             }
         }while(numeroRepetido == true);
 
-        return numeroGerado;
+        return numeroGerado;*/
+
+        int possibilidades[] = possibilidades(jogadasH, JogadasB);
+        Integer melhorMovimento = null;
+        
+
+        return melhorMovimento;
     }
+    
+    public int[] possibilidades(int[] JogadasH, int[] JogadasB){
+        int[] possibilidades1 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        for(int i=0; i<9 ; i++){
+            if(possibilidades1[i] == JogadasH[i])
+            possibilidades1[i] = 0;
+            if(possibilidades1[i] == JogadasB[i])
+            possibilidades1[i] = 0;
+        }
+        int a = 0;
+        for(int possiveis : possibilidades1){
+            if(possiveis != 0){
+                a++;
+            }
+        }
+        int possibilidades2[] = new int[a];
+        for(int i=0; i<a; i++){
+            if(possibilidades1[i] != 0){
+                possibilidades2[i] = possibilidades1[i];
+            }
+        }
+        return possibilidades2;
+    }
+    
 }
