@@ -1,6 +1,7 @@
 package JogoDaVelha;
 import java.util.Scanner;
-import java.util.Random;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args){
 
@@ -8,6 +9,10 @@ public class Main {
         //Define a lista de jogadas dos dois jogadores
         int[] jogadas1 = new int[5];
         int[] jogadas2 = new int[5];
+
+        int jogador = 1;
+
+        int[] posicoesEscolhidas = new int[10];
 
         int tipoDeJogo;
         do{
@@ -43,13 +48,35 @@ public class Main {
 
         Funcao.imprimeTabela(tabela);
 
-        //Recebe a jogada do usuario
-        System.out.println("Onde você quer jogar?(1-9) ");
-        int posicao = scanner.nextInt();
+        int i = 0;
+        int j = 0;
+        do {
+            //Recebe a jogada do usuario
+            System.out.println("Onde você quer jogar?(1-9) ");
+            int posicao = scanner.nextInt();
+            if(posicao)
+
+
+            //Adiciona posição à lista de jogadas do jogador
+            if (jogador % 2 == 0) {
+                jogadas1[i] = posicao;
+                i++;
+            } else {
+                jogadas2[j] = posicao;
+                j++;
+            }
+
+            //Altera jogador
+            jogador += 1;
+
+            //Altera a tabela e mostra a nova que foi criada
+            Funcao.realizaJogada(tabela, posicao, jogador);
+            Funcao.imprimeTabela(tabela);
+        }while(Funcao.checarVencedor(jogadas1, jogadas2) == false);
+
+
+
         scanner.close();
-
-        int jogador = 1;
-
     }
 
 

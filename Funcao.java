@@ -70,4 +70,7 @@ public class Funcao {
         }
     }
 
+    public static boolean checarVencedor(int jogadas1[], int jogadas2[]){
+        return false;
+    }
 }
