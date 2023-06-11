@@ -75,11 +75,12 @@ public class Main {
                 j++;
             }
 
+            Funcao.realizaJogada(tabela, posicao, jogador);
+
             //Altera jogador
             jogador += 1;
 
             //Altera a tabela e mostra a nova que foi criada
-            Funcao.realizaJogada(tabela, posicao, jogador);
             Funcao.imprimeTabela(tabela);
             System.out.println(jogadas1);
             System.out.println(jogadas2);
