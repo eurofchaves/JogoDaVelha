@@ -1,17 +1,16 @@
 package JogoDaVelha;
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.List;
 
-
-
-public class Jogador {
-    protected int[] jogadas = new int[5];
+public abstract class Jogador {
+    protected List<Integer> jogadas = new ArrayList<>();
 }
 
 class Humano extends Jogador{
-    String nome;
-    Humano(String nome, int[] jogadas){
+    public String nome;
+    public Humano(){};
+    public Humano(String nome, List<Integer> jogadas){
         this.nome = nome;
         this.jogadas = jogadas;
     }
@@ -19,7 +18,8 @@ class Humano extends Jogador{
 
 class Bot extends Jogador{
     private Random random;
-    Bot(int[] jogadas){
+    Bot(){};
+    Bot(List<Integer> jogadas){
         this.jogadas = jogadas;
     }
     public Integer geraJogada(int[] jogadasH, int[] JogadasB){
@@ -38,11 +38,11 @@ class Bot extends Jogador{
 
         int possibilidades[] = possibilidades(jogadasH, JogadasB);
         Integer melhorMovimento = null;
-        
+
 
         return melhorMovimento;
     }
-    
+
     public int[] possibilidades(int[] JogadasH, int[] JogadasB){
         int[] possibilidades1 = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         for(int i=0; i<9 ; i++){
@@ -65,5 +65,5 @@ class Bot extends Jogador{
         }
         return possibilidades2;
     }
-    
+
 }

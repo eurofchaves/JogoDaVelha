@@ -1,5 +1,6 @@
 package JogoDaVelha;
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -7,12 +8,16 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         //Define a lista de jogadas dos dois jogadores
-        int[] jogadas1 = new int[5];
-        int[] jogadas2 = new int[5];
+        List<Integer> jogadas1 = new ArrayList<>();
+        List<Integer> jogadas2 = new ArrayList<>();
 
         int jogador = 1;
 
-        int[] posicoesEscolhidas = new int[10];
+        List<Integer> posicoesEscolhidas = new ArrayList<>();
+
+        Humano j1 = new Humano();
+        Humano j2 = new Humano();
+        Jogador bot = new Bot();
 
         int tipoDeJogo;
         do{
@@ -26,15 +31,15 @@ public class Main {
             System.out.println("Insira o nome do Jogador 2: ");
             String nome2 = scanner.next();
 
-            Jogador j1 = new Humano(nome1, jogadas1);
-            Jogador j2 = new Humano(nome2, jogadas2);
+            j1 = new Humano(nome1, jogadas1);
+            j2 = new Humano(nome2, jogadas2);
         }
         else{
             System.out.println("Insira o nome do Jogador 1: ");
             String nome1 = scanner.next();
 
-            Jogador j1 = new Humano(nome1, jogadas1);
-            Jogador bot = new Bot(jogadas2);
+            j1 = new Humano(nome1, jogadas1);
+            bot = new Bot(jogadas2);
         }
 
         //Cria a figura da tabela
@@ -50,19 +55,23 @@ public class Main {
 
         int i = 0;
         int j = 0;
+        int posicao = 0;
         do {
-            //Recebe a jogada do usuario
-            System.out.println("Onde você quer jogar?(1-9) ");
-            int posicao = scanner.nextInt();
-            if(posicao)
+            do {
+                //Recebe a jogada do usuario
+                System.out.println("Onde você quer jogar?(1-9) ");
+                posicao = scanner.nextInt();
 
+            }while(posicoesEscolhidas.contains(posicao) == true);
+
+            posicoesEscolhidas.add(posicao);
 
             //Adiciona posição à lista de jogadas do jogador
             if (jogador % 2 == 0) {
-                jogadas1[i] = posicao;
+                jogadas1.add(posicao);
                 i++;
             } else {
-                jogadas2[j] = posicao;
+                jogadas2.add(posicao);
                 j++;
             }
 
@@ -72,7 +81,19 @@ public class Main {
             //Altera a tabela e mostra a nova que foi criada
             Funcao.realizaJogada(tabela, posicao, jogador);
             Funcao.imprimeTabela(tabela);
-        }while(Funcao.checarVencedor(jogadas1, jogadas2) == false);
+            System.out.println(jogadas1);
+            System.out.println(jogadas2);
+        }while(Funcao.checarVencedor(jogadas1, jogadas2) == false && posicoesEscolhidas.size() < 9);
+
+        if(Funcao.checarVencedor(jogadas1, jogadas2) == true){
+            if(jogador % 2 == 0){
+                System.out.println(j1.nome + " venceu! Que Poggers!");
+            }
+        }
+
+        if(posicoesEscolhidas.size() == 9 && !Funcao.checarVencedor(jogadas1, jogadas2)){
+            System.out.println("not poggers");
+        }
 
 
 

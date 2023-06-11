@@ -1,5 +1,9 @@
 package JogoDaVelha;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Funcao {
 
     public static void realizaJogada(String[][] tabela, int posicao, int jogador){
@@ -70,7 +74,37 @@ public class Funcao {
         }
     }
 
-    public static boolean checarVencedor(int jogadas1[], int jogadas2[]){
-        return false;
+    public static boolean checarVencedor(List<Integer> jogadas1, List<Integer> jogadas2){
+
+        boolean vitoria = false;
+
+        List diagonal1 = Arrays.asList(3, 5, 7);
+        List diagonal2 = Arrays.asList(1, 5, 9);
+        List horizontal1 = Arrays.asList(7, 8, 9);
+        List horizontal2 = Arrays.asList(4, 5, 6);
+        List horizontal3 = Arrays.asList(1, 2, 3);
+        List vertical1 = Arrays.asList(1, 4, 7);
+        List vertical2 = Arrays.asList(2, 5, 8);
+        List vertical3 = Arrays.asList(3, 6, 9);
+
+        List<List> listaDeVitorias = new ArrayList<List>();
+        listaDeVitorias.add(diagonal1);
+        listaDeVitorias.add(diagonal2);
+        listaDeVitorias.add(horizontal1);
+        listaDeVitorias.add(horizontal2);
+        listaDeVitorias.add(horizontal3);
+        listaDeVitorias.add(vertical1);
+        listaDeVitorias.add(vertical2);
+        listaDeVitorias.add(vertical3);
+
+        for(List l : listaDeVitorias){
+            if(jogadas1.containsAll(l)){
+                vitoria = true;
+            }
+            if(jogadas2.containsAll(l)){
+                vitoria = true;
+            }
+        }
+        return vitoria;
     }
 }
