@@ -1,22 +1,123 @@
-Public class Bot extends Jogador{
-    private Random random = new Random();
-    public Bot(){};
-    public Bot(List<Integer> jogadas){
-        this.jogadas = jogadas;
-    }
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Bot extends Jogador {
     
-    public Integer geraJogada(List<Integer> jogadasH, List<Integer> jogadasB){
-        boolean numeroRepetido = false;
-        int numeroGerado;
-        do{
-            numeroGerado = random.nextInt(9) + 1;
-            for (int jogada : jogadas) {
-                if (jogada == numeroGerado) {
-                    numeroRepetido = true;
+    private Random random = new Random();
+
+    public Bot(){}
+    public Bot(List<Integer> jogadas){
+        super(jogadas);
+    }
+
+    public Integer geraJogada(List<Integer> jogadasH, List<Integer> jogadasB, List<Integer> PosicoesEscolhidas){
+        /*int decisao = random.nextInt(6);
+        
+        if(decisao < 4){
+            boolean numeroRepetido;
+            int numeroGerado;
+            List<Integer> possibilidades = possibilidades(PosicoesEscolhidas);
+            do{
+                numeroRepetido = true;
+                numeroGerado = random.nextInt(9) + 1;
+                for (Integer jogada : possibilidades) {
+                    if (jogada == numeroGerado) {
+                        numeroRepetido = false;
+                    }
+                }
+            }while(numeroRepetido);
+    
+            return numeroGerado;*/
+        
+            List<Integer> possibilidades = possibilidades(PosicoesEscolhidas);
+            Integer melhorPontuacao = Integer.MIN_VALUE;
+            Integer melhorJogada = null;
+
+            for(Integer jogada : possibilidades){
+                System.out.println("jogada" + jogada);
+                jogadasB.add(jogada);
+                PosicoesEscolhidas.add(jogada);
+                int pontuacao = minimax(PosicoesEscolhidas, jogadasH, jogadasB, 2);
+                jogadasB.remove(jogadasB.size()-1);
+                PosicoesEscolhidas.remove(PosicoesEscolhidas.size()-1);
+
+                if(pontuacao > melhorPontuacao){
+                    melhorPontuacao = pontuacao;
+                    melhorJogada = jogada;
                 }
             }
-        }while(numeroRepetido);
+
+            return melhorJogada;
+    }
     
-        return numeroGerado;
+    public List possibilidades(List<Integer> PosicoesEscolhidas){
+        
+        List<Integer> jogadas = new ArrayList<>();
+        for(int i=1; i<10; i++){
+            jogadas.add(i);
+        }
+        System.out.println("jogadas 1: " + jogadas);
+        System.out.println("Posicoes escolhidas" + PosicoesEscolhidas);
+        for(Integer i : PosicoesEscolhidas){
+            for(int a=0; a<9; a++){
+                if(jogadas.get(a) == i){
+                    jogadas.set(a, 0);
+                }
+            }
+        }
+        System.out.println("jogada 2: " + jogadas);
+        int j=0;
+        List<Integer> possibilidades2 = new ArrayList<>();
+        for(int i=0; i<jogadas.size() ; i++){
+            if(jogadas.get(i) != 0){
+                possibilidades2.add(jogadas.get(i));
+                j++;
+            }
+        }
+        System.out.println(possibilidades2);
+        return possibilidades2;
+    }
+    
+    public int minimax(List<Integer> PosicoesEscolhidas, List<Integer> jogadasH, List<Integer> jogadasB, int jogador){
+        if (Funcao.checarVencedor(jogadasB, jogadasH) && jogador == 1){
+            return 1;
+        }
+        if (Funcao.checarVencedor(jogadasB, jogadasH) && jogador == 2){
+            return -1;
+        }
+        if ((jogadasH.size()+jogadasB.size()) < 9 && !Funcao.checarVencedor(jogadasB, jogadasH)){
+            return 0;
+        }
+
+        if(jogador == 1){
+            int melhorpontuacao = Integer.MIN_VALUE;
+            List<Integer> possibilidades = possibilidades(PosicoesEscolhidas);
+
+            for(int possibilidade : possibilidades){
+                jogadasB.add(possibilidade);
+                PosicoesEscolhidas.add(possibilidade);
+                int pontuacao = minimax(PosicoesEscolhidas, jogadasH, jogadasB, 2);
+                jogadasB.remove(jogadasB.size()-1);
+                PosicoesEscolhidas.remove(PosicoesEscolhidas.size()-1);
+                melhorpontuacao = Math.max(melhorpontuacao, pontuacao);
+            }
+
+            return melhorpontuacao;
+        } else {
+            int melhorpontuacao = Integer.MAX_VALUE;
+            List<Integer> possibilidades = possibilidades(PosicoesEscolhidas);
+
+            for(int possibilidade : possibilidades){
+                jogadasH.add(possibilidade);
+                PosicoesEscolhidas.add(possibilidade);
+                int pontuacao = minimax(PosicoesEscolhidas, jogadasH, jogadasB, 1);
+                jogadasH.remove(jogadasH.size()-1);
+                PosicoesEscolhidas.remove(PosicoesEscolhidas.size()-1);
+                melhorpontuacao = Math.min(melhorpontuacao, pontuacao);
+            }
+
+            return melhorpontuacao;
+        }
     }
 }
