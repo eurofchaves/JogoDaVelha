@@ -1,0 +1,22 @@
+Public class Bot extends Jogador{
+    private Random random = new Random();
+    public Bot(){};
+    public Bot(List<Integer> jogadas){
+        this.jogadas = jogadas;
+    }
+    
+    public Integer geraJogada(List<Integer> jogadasH, List<Integer> jogadasB){
+        boolean numeroRepetido = false;
+        int numeroGerado;
+        do{
+            numeroGerado = random.nextInt(9) + 1;
+            for (int jogada : jogadas) {
+                if (jogada == numeroGerado) {
+                    numeroRepetido = true;
+                }
+            }
+        }while(numeroRepetido);
+    
+        return numeroGerado;
+    }
+}
