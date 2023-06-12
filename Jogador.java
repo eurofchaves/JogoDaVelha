@@ -1,11 +1,10 @@
-package JogoDaVelha;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Jogador {
+public abstract class Jogador{
 
     private List<Integer> jogadas = new ArrayList<>();
-    
+
     public Jogador() {}
     public Jogador(List<Integer> jogadas) {
         this.jogadas = jogadas;
