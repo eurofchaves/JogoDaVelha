@@ -1,3 +1,5 @@
+package JogoDaVelha;
+
 import java.util.List;
 
 public class Humano extends Jogador {

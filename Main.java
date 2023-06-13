@@ -1,112 +1,146 @@
-import java.util.Scanner;
+package JogoDaVelha;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args){
+    private static Scanner scanner;
+    private static List<Integer> jogadas1;
+    private static List<Integer> jogadas2;
+    private static List<Integer> posicoesEscolhidas;
+    private static int jogador;
+    private static Humano j1;
+    private static Humano j2;
+    private static Bot bot;
+    private static String[][] tabela;
+    private static int tipoDeJogo;
 
-        Scanner scanner = new Scanner(System.in);
-        //Define a lista de jogadas dos dois jogadores
-        List<Integer> jogadas1 = new ArrayList<>();
-        List<Integer> jogadas2 = new ArrayList<>();
-        List<Integer> posicoesEscolhidas = new ArrayList<>();
+    public static void main(String[] args) {
+        scanner = new Scanner(System.in);
+        jogadas1 = new ArrayList<>();
+        jogadas2 = new ArrayList<>();
+        posicoesEscolhidas = new ArrayList<>();
+        jogador = 1;
+        j1 = new Humano();
+        j2 = new Humano();
+        bot = new Bot();
 
-        int jogador = 1;
-        boolean x;
+        tabela = new String[][]{{"|", "---", "|", "---", "|", "---", "|"},
+                {"|", "   ", "|", "   ", "|", "   ", "|"},
+                {"|", "---", "|", "---", "|", "---", "|"},
+                {"|", "   ", "|", "   ", "|", "   ", "|"},
+                {"|", "---", "|", "---", "|", "---", "|"},
+                {"|", "   ", "|", "   ", "|", "   ", "|"},
+                {"|", "---", "|", "---", "|", "---", "|"}};
 
-        Humano j1 = new Humano();
-        Humano j2 = new Humano();
-        Bot bot = new Bot();
+        escolherTipoDeJogo();
+        Funcao.imprimeTabela(tabela);
 
-        //Cria a figura da tabela
-        String[][] tabela = {{"|", "---", "|","---", "|","---", "|"},
-                             {"|", "   ", "|", "   ", "|", "   ", "|"},
-                             {"|", "---", "|","---", "|","---", "|"},
-                             {"|", "   ", "|", "   ", "|", "   ", "|"},
-                             {"|", "---", "|","---", "|","---", "|"},
-                             {"|", "   ", "|", "   ", "|", "   ", "|"},
-                             {"|", "---", "|","---", "|","---", "|"}};
-        
-        int tipoDeJogo;
+        if (tipoDeJogo == 1) {
+            jogarModoPessoa();
+        } else {
+            jogarModoBot();
+        }
 
-        do{
+        scanner.close();
+    }
+
+    private static void escolherTipoDeJogo() {
+        do {
             System.out.println("O jogo será entre duas pessoas[1] ou contra bot[2]");
             tipoDeJogo = scanner.nextInt();
-        }while(tipoDeJogo != 1 && tipoDeJogo != 2);
+        } while (tipoDeJogo != 1 && tipoDeJogo != 2);
 
-        if(tipoDeJogo == 1){
-            System.out.println("Insira o nome do Jogador 1: ");
-            String nome1 = scanner.next();
-            j1.setNome(nome1);
-            j1.setJogadas(jogadas1);
+        System.out.println("Insira o nome do Jogador 1: ");
+        String nome1 = scanner.next();
+        j1.setNome(nome1);
+        j1.setJogadas(jogadas1);
+
+        if (tipoDeJogo == 1) {
             System.out.println("Insira o nome do Jogador 2: ");
             String nome2 = scanner.next();
             j2.setNome(nome2);
             j2.setJogadas(jogadas2);
-        }
-        else{
-            System.out.println("Insira o nome do Jogador 1: ");
-            String nome1 = scanner.next();
-            j1.setNome(nome1);
-            j1.setJogadas(jogadas1);
+        } else {
             bot.setJogadas(jogadas2);
         }
+    }
 
-        Funcao.imprimeTabela(tabela);
-
-        int posicao = 0;
-        if(tipoDeJogo == 1){
+    private static void jogarModoPessoa() {
+        int posicao;
+        do {
             do {
-                do {
-                    //Recebe a jogada do usuario
-                    System.out.print("Onde você quer jogar?(1-9):  ");
-                    posicao = scanner.nextInt();
-
-                }while(posicoesEscolhidas.contains(posicao) == true);
-
-                posicoesEscolhidas.add(posicao);
-                //Adiciona posição à lista de jogadas do jogador
-                if (jogador % 2 == 0) {
-                    j1.addJogada(posicao);
-                } else {
-                    j2.addJogada(posicao);
-                }
-
-                Funcao.realizaJogada(tabela, posicao, jogador);
-
-                //Altera jogador
-                jogador += 1;
-
-                //Altera a tabela e mostra a nova que foi criada
-                Funcao.imprimeTabela(tabela);
-            }while(!Funcao.checarVencedor(j1.getJogadas(), j2.getJogadas()) && posicoesEscolhidas.size() < 9);
-
-            if(Funcao.checarVencedor(j1.getJogadas(), j2.getJogadas())){
-                if(jogador % 2 == 0){
-                    System.out.println(j1.getNome() + " venceu! Que Poggers!");
-                } else {
-                    System.out.println(j2.getNome() + " venceu! Que Poggers!");
-                }
-            }
-
-            if(posicoesEscolhidas.size() == 9 && Funcao.checarVencedor(j1.getJogadas(), j2.getJogadas())){
-                System.out.println("not poggers");
-            }
-        } else {
-            do {
-                //Recebe a jogada do usuario
                 System.out.print("Onde você quer jogar?(1-9):  ");
                 posicao = scanner.nextInt();
+            } while (posicoesEscolhidas.contains(posicao));
 
-            }while(posicoesEscolhidas.contains(posicao) == true);
-            
             posicoesEscolhidas.add(posicao);
 
-            if(!Funcao.checarVencedor(j1.getJogadas(), bot.getJogadas())){
-
+            if (jogador % 2 == 1) {
+                j1.addJogada(posicao);
+            } else {
+                j2.addJogada(posicao);
             }
+
+            Funcao.realizaJogada(tabela, posicao, jogador);
+
+            jogador++;
+            Funcao.imprimeTabela(tabela);
+            System.out.println(jogadas1);
+            System.out.println(jogadas2);
+
+        } while (!Funcao.checarVencedor(j1.getJogadas(), j2.getJogadas(), null, null) && posicoesEscolhidas.size() < 9);
+
+        Funcao.checarVencedor(j1.getJogadas(), j2.getJogadas(), j1.getNome(), j2.getNome());
+
+        if (posicoesEscolhidas.size() == 9 && !Funcao.checarVencedor(j1.getJogadas(), j2.getJogadas(), null, null)) {
+            System.out.println("not poggers");
+        }
+    }
+
+    private static void jogarModoBot() {
+        int posicao;
+        do{
+            do {
+                System.out.print("Onde você quer jogar?(1-9):  ");
+                posicao = scanner.nextInt();
+            } while (posicoesEscolhidas.contains(posicao));
+            posicoesEscolhidas.add(posicao);
+            j1.addJogada(posicao);
+
+            Funcao.realizaJogada(tabela, posicao, jogador);
+
+            Funcao.imprimeTabela(tabela);
+            System.out.println(jogadas1);
+            System.out.println(j1.getJogadas());
+
+            jogador++;
+            if(posicoesEscolhidas.size() != 9 && !Funcao.checarVencedor(j1.getJogadas(), bot.getJogadas(), null, null)){
+                int jogadaDoBot = bot.geraJogada(posicoesEscolhidas);
+
+                posicoesEscolhidas.add(jogadaDoBot);
+                bot.addJogada(jogadaDoBot);
+
+                Funcao.realizaJogada(tabela, jogadaDoBot, jogador);
+
+                Funcao.imprimeTabela(tabela);
+                System.out.println(jogadas2);
+                System.out.println(bot.getJogadas());
+                jogador++;
+            }
+
+        }while(!Funcao.checarVencedor(j1.getJogadas(), bot.getJogadas(), null, null) && posicoesEscolhidas.size() < 9);
+
+        Funcao.checarVencedor(j1.getJogadas(), bot.getJogadas(), j1.getNome(), bot.getNome());
+
+        if (posicoesEscolhidas.size() == 9 && !Funcao.checarVencedor(j1.getJogadas(), bot.getJogadas(), null, null)) {
+            System.out.println("EMPATOU");
         }
 
-        scanner.close();
-    }     
-}
+        }
+    }
+
+
+
+

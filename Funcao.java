@@ -1,3 +1,5 @@
+package JogoDaVelha;
+
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +74,7 @@ public class Funcao {
         }
     }
 
-    public static boolean checarVencedor(List<Integer> jogadas1, List<Integer> jogadas2){
+    public static boolean checarVencedor(List<Integer> jogadas1, List<Integer> jogadas2, String nome1, String nome2){
 
         boolean vitoria = false;
 
@@ -95,14 +97,28 @@ public class Funcao {
         listaDeVitorias.add(vertical2);
         listaDeVitorias.add(vertical3);
 
+        String vencedor;
         for(List l : listaDeVitorias){
             if(jogadas1.containsAll(l)){
                 vitoria = true;
+                vencedor = nome1;
+                if(!(nome1 == null && nome2 == null)) {
+                    System.out.println(vencedor + " venceu!");
+                }
             }
+
             if(jogadas2.containsAll(l)){
                 vitoria = true;
+                vencedor = nome2;
+                if(!(nome1 == null && nome2 == null)) {
+                    System.out.println(vencedor + " venceu!");
+                }
+
             }
         }
         return vitoria;
     }
+
+
 }
+
