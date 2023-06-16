@@ -17,32 +17,50 @@ public class Main {
     private static int tipoDeJogo;
 
     public static void main(String[] args) {
-        scanner = new Scanner(System.in);
-        jogadas1 = new ArrayList<>();
-        jogadas2 = new ArrayList<>();
-        posicoesEscolhidas = new ArrayList<>();
-        jogador = 1;
-        j1 = new Humano();
-        j2 = new Humano();
-        bot = new Bot();
+        int continuar = 0;
+        boolean x;
+        do{
+            scanner = new Scanner(System.in);
+            jogadas1 = new ArrayList<>();
+            jogadas2 = new ArrayList<>();
+            posicoesEscolhidas = new ArrayList<>();
+            jogador = 1;
+            j1 = new Humano();
+            j2 = new Humano();
+            bot = new Bot();
 
-        tabela = new String[][]{{"|", "---", "|", "---", "|", "---", "|"},
-                {"|", "   ", "|", "   ", "|", "   ", "|"},
-                {"|", "---", "|", "---", "|", "---", "|"},
-                {"|", "   ", "|", "   ", "|", "   ", "|"},
-                {"|", "---", "|", "---", "|", "---", "|"},
-                {"|", "   ", "|", "   ", "|", "   ", "|"},
-                {"|", "---", "|", "---", "|", "---", "|"}};
+            tabela = new String[][]{{"|", "---", "|", "---", "|", "---", "|"},
+                    {"|", "   ", "|", "   ", "|", "   ", "|"},
+                    {"|", "---", "|", "---", "|", "---", "|"},
+                    {"|", "   ", "|", "   ", "|", "   ", "|"},
+                    {"|", "---", "|", "---", "|", "---", "|"},
+                    {"|", "   ", "|", "   ", "|", "   ", "|"},
+                    {"|", "---", "|", "---", "|", "---", "|"}};
 
-        escolherTipoDeJogo();
-        Funcao.imprimeTabela(tabela);
+            escolherTipoDeJogo();
+            Funcao.imprimeTabela(tabela);
 
-        if (tipoDeJogo == 1) {
-            jogarModoPessoa();
-        } else {
-            jogarModoBot();
-        }
-
+            if (tipoDeJogo == 1) {
+                jogarModoPessoa();
+            } else {
+                jogarModoBot();
+            }
+            do{
+                x = false;
+                try {
+                    System.out.println("Você deseja continuar jogando? [1] para continuar, [0] pra sair");
+                    continuar = scanner.nextInt();
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("\n-----------Por favor, Digite somente números.-----------\n");
+                    x = true;
+                    scanner.nextLine();
+                }
+                if(continuar!=0 && continuar!=1){
+                    System.out.println("\n-----------Por favor, Digite somente 0 ou 1.-----------\n");
+                    x = true;
+                }
+            }while(x);
+        }while(continuar == 1);
         scanner.close();
     }
 
