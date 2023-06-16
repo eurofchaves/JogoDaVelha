@@ -48,8 +48,17 @@ public class Main {
 
     private static void escolherTipoDeJogo() {
         do {
-            System.out.println("O jogo será entre duas pessoas[1] ou contra bot[2]");
-            tipoDeJogo = scanner.nextInt();
+            try{
+                System.out.println("O jogo será entre duas pessoas[1] ou contra bot[2]");
+                tipoDeJogo = scanner.nextInt();
+                if(tipoDeJogo != 1 && tipoDeJogo != 2){
+                    System.out.println("\n-----------Por favor, Digite 1 ou 2.-----------\n");
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("\n-----------Por favor, Digite um número inteiro.-----------\n");
+                tipoDeJogo = 0;
+                scanner.nextLine();
+            }
         } while (tipoDeJogo != 1 && tipoDeJogo != 2);
 
         System.out.println("Insira o nome do Jogador 1: ");
@@ -68,12 +77,27 @@ public class Main {
     }
 
     private static void jogarModoPessoa() {
-        int posicao;
+        int posicao = 0;
+        boolean x;
         do {
             do {
-                System.out.print("Onde você quer jogar?(1-9):  ");
-                posicao = scanner.nextInt();
-            } while (posicoesEscolhidas.contains(posicao));
+                try{
+                    x = false;
+                    System.out.print("Onde você quer jogar?(1-9):  ");
+                    posicao = scanner.nextInt();
+                    if(posicoesEscolhidas.contains(posicao)){
+                        System.out.println("\n-----------Posição já escolhida. Por favor, Digite outra posição.-----------\n");
+                    }
+                    if(posicao>9 || posicao<1){
+                        System.out.println("\n-----------Por favor, Digite um número de 1 à 9.-----------\n");
+                        x = true;
+                    }
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("\n-----------Por favor, Digite um número inteiro.-----------\n");
+                    x = true;
+                    scanner.nextLine();
+                }
+            } while (posicoesEscolhidas.contains(posicao) || x);
 
             posicoesEscolhidas.add(posicao);
 
@@ -100,12 +124,27 @@ public class Main {
     }
 
     private static void jogarModoBot() {
-        int posicao;
+        int posicao = 0;
+        boolean x;
         do{
             do {
-                System.out.print("Onde você quer jogar?(1-9):  ");
-                posicao = scanner.nextInt();
-            } while (posicoesEscolhidas.contains(posicao));
+                try{
+                    x = false;
+                    System.out.print("Onde você quer jogar?(1-9):  ");
+                    posicao = scanner.nextInt();
+                    if(posicoesEscolhidas.contains(posicao)){
+                        System.out.println("\n-----------Posição já escolhida. Por favor, Digite outra posição.-----------\n");
+                    }
+                    if(posicao>9 || posicao<1){
+                        System.out.println("\n-----------Por favor, Digite um número de 1 à 9.-----------\n");
+                        x = true;
+                    }
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("\n-----------Por favor, Digite um número inteiro.-----------\n");
+                    x = true;
+                    scanner.nextLine();
+                }
+            } while (posicoesEscolhidas.contains(posicao) || x);
             posicoesEscolhidas.add(posicao);
             j1.addJogada(posicao);
 
@@ -140,7 +179,3 @@ public class Main {
 
         }
     }
-
-
-
-
