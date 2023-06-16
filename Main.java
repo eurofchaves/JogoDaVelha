@@ -129,8 +129,6 @@ public class Main {
 
             jogador++;
             Funcao.imprimeTabela(tabela);
-            System.out.println(jogadas1);
-            System.out.println(jogadas2);
 
         } while (!Funcao.checarVencedor(j1.getJogadas(), j2.getJogadas(), null, null) && posicoesEscolhidas.size() < 9);
 
@@ -169,8 +167,6 @@ public class Main {
             Funcao.realizaJogada(tabela, posicao, jogador);
 
             Funcao.imprimeTabela(tabela);
-            System.out.println(jogadas1);
-            System.out.println(j1.getJogadas());
 
             jogador++;
             if(posicoesEscolhidas.size() != 9 && !Funcao.checarVencedor(j1.getJogadas(), bot.getJogadas(), null, null)){
@@ -182,8 +178,6 @@ public class Main {
                 Funcao.realizaJogada(tabela, jogadaDoBot, jogador);
 
                 Funcao.imprimeTabela(tabela);
-                System.out.println(jogadas2);
-                System.out.println(bot.getJogadas());
                 jogador++;
             }
 
